@@ -8,15 +8,13 @@ and [React-redux](https://react-redux.js.org/) for state management
 
 To run application in dev mode:
 
-- Install pnpm package manager
-  ```
-    npm install -g pnpm
-  ```
+1. Install pnpm package manager
+  `npm install -g pnpm`
 
-- Install pnpm package manager
+2. Install pnpm package manager
     `npm install -g pnpm`
-- Install dependencies
+3. Install dependencies
     `pnpm install`
-- Run application
+4. Run application
     `pnpm dev`
   
