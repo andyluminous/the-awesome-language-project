@@ -5,4 +5,5 @@ This project will allow users that are studying a language to take notes, new wo
 This project is a study of multiple technologies relevant for modern web-development.
 
 Consists of following apps:
-- [User frontend app](/frontend/user/README.md)
+- [User frontend app](/frontend/user/README.md) - Typescript/Next.js/React/React-Redux/MUI
+- [User backend app](/backend/user/README.MD) - Go/Gin-Gonic/GORM

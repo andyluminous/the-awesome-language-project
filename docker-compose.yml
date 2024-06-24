@@ -1,0 +1,17 @@
+services:
+  talp-db-user:
+    container_name: talp-db-user
+    image: public.ecr.aws/docker/library/postgres:14.6
+    ports:
+      - "6432:5432"
+    volumes:
+      - ./volumes/talp-db-user:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d talp-db-user"]
+      interval: 5s
+      timeout: 15s
+      start_period: 10s
+      retries: 10
+    environment:
+      - POSTGRES_DB=talp-db-user
+      - POSTGRES_PASSWORD=postgres
