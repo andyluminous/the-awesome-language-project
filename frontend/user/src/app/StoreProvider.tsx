@@ -13,7 +13,7 @@ export default function StoreProvider({
   user,
   children
 }: {
-  user: IUserSlice,
+  user: IUserSlice | null,
   children: React.ReactNode
 }) {
   const storeRef = useRef<AppStore>();

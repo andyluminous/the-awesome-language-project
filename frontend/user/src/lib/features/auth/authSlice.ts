@@ -1,10 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/lib/store'
+import type { IUserInfo } from '@/lib/models/user.model'
 
-interface IUserInfo {
-  username: string;
-  isLoggedIn: boolean;
-}
 // Define a type for the slice state
 export interface AuthState {
   user: IUserInfo | null;

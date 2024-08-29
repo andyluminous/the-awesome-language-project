@@ -9,8 +9,6 @@ export function HeaderComponent() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
-  console.log(user);
-
   const handleLogoutButtonClickedEvent = () => dispatch(logOut())
 
   return (

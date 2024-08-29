@@ -1,23 +1,25 @@
-export default function Page() {
+import { Suspense } from 'react';
+
+import Table from '@/app/dashboard/table';
+import { DashboardTableSkeleton } from '@/app/ui/skeletons/skeletons';
+import Search from './search';
+
+interface IDashboardPageProps {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}
+
+export default async function DashboardPage({
+  searchParams,
+}: IDashboardPageProps) {
   return (
     <div>
-      <h1>Hi, User Dahsboard will be here</h1>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+      <Search></Search>
+      <Suspense fallback={<DashboardTableSkeleton />}>
+        <Table query={searchParams?.query} page={searchParams?.page}/>
+      </Suspense>
     </div>
   );
 }
