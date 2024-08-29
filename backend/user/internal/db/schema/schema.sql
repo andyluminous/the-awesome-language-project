@@ -8,3 +8,14 @@ CREATE TABLE "public"."users" (
   "deleted_at" timestamptz,
   PRIMARY KEY ("id")
 );
+
+CREATE TABLE "public"."quests" (
+  "id" int GENERATED ALWAYS AS IDENTITY,
+  "quest_name" varchar,
+  "country" varchar,
+  "description" varchar,
+  "created_at" timestamptz NOT NULL DEFAULT now(),
+  "updated_at" timestamptz,
+  PRIMARY KEY ("id")
+);
+
