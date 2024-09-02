@@ -1,56 +1,117 @@
-import React from 'react'
-import FormGroup from '@mui/material/FormGroup';
+import React, { useState } from 'react'
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import { Box, Button, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, Button, InputLabel, MenuItem, Paper, Select, Typography } from '@mui/material';
+import QuestConstructor from '@/components/QuestConstructor';
+import { useCreateQuestContext } from '@/state/createQuest.context';
+
+
 
 
 const CreateQuest: React.FC = () => {
-  const onCreateQuest = (event: any) => {
+  const { quest, setQuest } = useCreateQuestContext();
+  const onSubmit = (event: any) => {
     event.preventDefault();
-    console.log('SUBMiTTED', event)
+    console.log('SUBMiTTED', event, quest);
   }
+
+  const onChange = (event: any) => {
+    console.log('CHANGE', event);
+    setQuest(quest => {
+      return {
+        ...quest,
+        [event.target.name]: event.target.value,
+      }
+    })
+  }
+
   return (
     <Box
     sx={{
-      display: 'flex',
       width: '100%',
       height: '100%',
-      flexDirection: 'column',
-      justifyContent: 'start',
-      alignItems: 'center',
+      padding: '1rem',
     }}>
-      CREATE QUEST
-
-      <form
-        style={{
-          display: 'flex',
+      <Paper
+        sx={{
           width: '100%',
-          height: '100%',
-          flexDirection: 'column',
-          justifyContent: 'start',
-          alignItems: 'center',
-        }}
-        onSubmit={onCreateQuest}>
-        <FormControl >
-          <TextField name='name'></TextField>
-        </FormControl>
+          padding: '1rem',
+        }}>
+        <Typography
+          component='h1'
+          sx={{
+            padding: '0.5rem',
+          }}>
+          Create quest
+        </Typography>
 
-        <FormControl fullWidth>
-          <InputLabel id="country">Age</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
+        <form
+          style={{
+            display: 'flex',
+            width: '100%',
+            flexDirection: 'column',
+            justifyContent: 'start',
+            alignItems: 'flex-start',
+          }}
+          onSubmit={onSubmit} >
 
-        <Button type='submit'>Save</Button>
-      </form>
+
+          <TextField
+            style={{
+              width: '20rem',
+              marginBottom: '1rem'
+            }}
+            type="text"
+            id="name"
+            name="name"
+            label="Name"
+            variant="outlined"
+            value={quest.name}
+            onChange={onChange} />
+
+
+          <FormControl
+            style={{
+              width: '20rem',
+              marginBottom: '1rem',
+            }}>
+            <InputLabel id="country-label">Country</InputLabel>
+            <Select
+              id="country"
+              name="country"
+              variant="outlined"
+              defaultValue={''}
+              label="Country"
+              labelId="country-label"
+              value={quest.country}
+              onChange={onChange} >
+              {
+                ['Belgium','Denmark','France','Germany','Netherlands','Portugal','Sweden','Ukraine', 'United States'].map((country, idx) => {
+                  return (<MenuItem key={idx} value={country}>{country}</MenuItem>)
+                })
+              }
+            </Select>
+          </FormControl>
+
+          
+          <TextField
+            style={{
+              width: '20rem',
+              marginBottom: '1rem'
+            }}
+            id="description"
+            name="description"
+            label="Description"
+            multiline
+            rows='3'
+            value={quest.description}
+            onChange={onChange} />
+
+          <QuestConstructor />
+
+          <Button type='submit'>Save</Button>
+        </form>
+      </Paper>
     </Box>
   )
 }

@@ -89,6 +89,7 @@ export const MenuDrawer = () => {
         {
           open ? 
           <IconButton onClick={handleDrawerClose}>
+            {/* TODO: DO THIS FOR WHOLE DRAWER */}
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton> :
           <IconButton onClick={handleDrawerOpen}>

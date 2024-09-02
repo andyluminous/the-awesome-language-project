@@ -15,6 +15,7 @@ import Login from '@/pages/Login';
 import CreateQuest from '@/pages/CreateQuest';
 import ViewQuests from '@/pages/ViewQuests';
 import theme from '@/theme';
+import { CreateQuestProvider } from './state/createQuest.provider';
 
 // import { useWSContext } from './state/ws.context';
 // import { useAuthContext } from './state/auth.context';
@@ -80,9 +81,11 @@ const App: React.FC = () => {
     <AuthProvider>
       <WSProvider>
         <ThemeProvider theme={theme}>
+          <CreateQuestProvider>
             <Layout>
               { outlet }
             </Layout>
+          </CreateQuestProvider>
         </ThemeProvider>
       </WSProvider>
     </AuthProvider>
