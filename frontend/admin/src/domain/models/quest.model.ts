@@ -1,8 +1,12 @@
+import { QuestStepTypeEnum } from "../enums/questStepTypeEnum";
+
 export interface QuestStepItem {
   id: number;
   order: number;
-  type: string;
+  type: QuestStepTypeEnum;
   name: string;
+  notes: string;
+  actionItems?: string[];
 }
 
 export interface Quest {

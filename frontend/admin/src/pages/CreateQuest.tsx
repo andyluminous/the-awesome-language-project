@@ -30,7 +30,6 @@ const CreateQuest: React.FC = () => {
     sx={{
       width: '100%',
       height: '100%',
-      padding: '1rem',
     }}>
       <Paper
         sx={{
@@ -93,7 +92,7 @@ const CreateQuest: React.FC = () => {
             </Select>
           </FormControl>
 
-          
+
           <TextField
             style={{
               width: '20rem',

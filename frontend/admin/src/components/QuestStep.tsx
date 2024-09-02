@@ -4,9 +4,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Card from "@mui/material/Card";
 import { CardContent, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { ChangeEvent, ChangeEventHandler } from "react";
 import { Quest, QuestStepItem } from "@/domain/models/quest.model";
 import { useCreateQuestContext } from "@/state/createQuest.context";
+import { QuestStepTypeEnum } from "@/domain/enums/questStepTypeEnum";
+import ActionQuestStep from "./ActionQuestStep";
+import ChecklistQuestStep from "./ChecklistQuestStep";
 
 interface QuestStepProps {
   questStep: QuestStepItem;
@@ -14,7 +17,7 @@ interface QuestStepProps {
 
 const QuestStep: React.FC<QuestStepProps> = ({ questStep }: QuestStepProps) => {
   const { setQuest } = useCreateQuestContext();
-  const onChange = (evt: SelectChangeEvent<string>) => {
+  const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setQuest((quest: Quest) => {
       return {
         ...quest,
@@ -27,14 +30,45 @@ const QuestStep: React.FC<QuestStepProps> = ({ questStep }: QuestStepProps) => {
             [evt.target.name]: evt.target.value,
           };
         })
-      }
+      } as Quest;
     })
   }
+
+  const onTypeChange = (evt: SelectChangeEvent<string>) => {
+    const type = evt.target.value;
+    let stepMixin: Partial<QuestStepItem>;
+    if (type == QuestStepTypeEnum.Action) {
+      stepMixin = { type };
+    } else if (type == QuestStepTypeEnum.Checklist) {
+      stepMixin = { type, actionItems: [''] }
+    }
+    setQuest((quest: Quest) => {
+      return {
+        ...quest,
+        steps: quest.steps.map((step: QuestStepItem) => {
+          if (step.id !== questStep.id) {
+            return step;
+          }
+          return {
+            ...step,
+            ...stepMixin,
+          };
+        })
+      } as Quest;
+    })
+  }
+
   return (
-    <Card>
+    <Card
+      draggable="true"
+      onDragStart={(event) => {
+        event.dataTransfer.setData('text', 'test')
+      }}
+      sx={{
+        marginBottom: '1rem',
+      }}>
       <CardContent
         sx={{
-          marginBottom: '1rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
@@ -53,22 +87,22 @@ const QuestStep: React.FC<QuestStepProps> = ({ questStep }: QuestStepProps) => {
             name="name"
             label="Name"
             variant="outlined"
-            value={questStep.name}></TextField>
+            value={questStep.name}
+            onChange={onChange} />
 
         <FormControl
           style={{
             width: '20rem',
           }}>
-          <InputLabel id="step-type-label">Step type</InputLabel>
+          <InputLabel id="type-label">Step type</InputLabel>
           <Select
-            id="step-type"
-            name="step-type"
+            id="type"
+            name="type"
             variant="outlined"
             label="Step type"
-            labelId="step-type-label"
+            labelId="type-label"
             value={questStep.type}
-            onChange={onChange}
-          >
+            onChange={onTypeChange} >
             {
               ['action', 'checklist'].map((country, idx) => {
                 return (<MenuItem key={idx} value={country}>{country}</MenuItem>)
@@ -77,8 +111,8 @@ const QuestStep: React.FC<QuestStepProps> = ({ questStep }: QuestStepProps) => {
           </Select>
         </FormControl>
 
-        {questStep.type === 'action' && (<div>ACTION</div>)}
-        {questStep.type === 'checklist' && (<div>CHECKLIST</div>)}
+        {questStep.type === 'action' && (<ActionQuestStep />)}
+        {questStep.type === 'checklist' && (<ChecklistQuestStep />)}
       </CardContent>
     </ Card>
   );

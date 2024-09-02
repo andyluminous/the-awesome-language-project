@@ -16,6 +16,8 @@ const QuestConstructor: React.FC<{}> = () => {
             id: quest.steps.length,
             order: quest.steps.length,
             type: '',
+            name: '',
+            notes: '',
           },
         ],
       } as Quest;
@@ -29,7 +31,36 @@ const QuestConstructor: React.FC<{}> = () => {
         width: '100%',
       }}>
       {quest.steps.map((q, idx) => (
-        <QuestStep key={idx} questStep={q} />
+        <div key={idx}>
+          <QuestStep questStep={q} />
+          <div
+            style={{ width: '100%', height: '3rem', border: '1px solid black'}}
+            // onDragOver={(event) => console.log('Dragover', event)}
+            onDrop={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              console.log('Drop', event);
+            }}
+            
+            onDragEnter={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              console.log('DragEnter', event);
+            }}
+
+            onDragOver={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              event.dataTransfer.dropEffect = "copy"
+              console.log('DragOver', event);
+            }}
+            
+            onDragLeave={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              console.log('DragLeave', event);
+            }}></div>
+        </div>
       ))}
       <Button onClick={handleAddStep}>Add step</Button>
     </ Box>
