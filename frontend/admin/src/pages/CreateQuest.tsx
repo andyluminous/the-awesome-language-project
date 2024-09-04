@@ -16,7 +16,6 @@ const CreateQuest: React.FC = () => {
   }
 
   const onChange = (event: any) => {
-    console.log('CHANGE', event);
     setQuest(quest => {
       return {
         ...quest,
