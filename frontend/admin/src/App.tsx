@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import {
-  BrowserRouter,
-  createBrowserRouter,
   RouteObject,
-  RouterProvider,
   useRoutes,
-} from 'react-router-dom';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+} from 'react-router';
 
 import { AuthProvider } from '@/state/auth.provider';
 import { WSProvider } from '@/state/ws.provider';
@@ -14,7 +10,6 @@ import { Layout } from '@/components/Layout';
 import Login from '@/pages/Login';
 import CreateQuest from '@/pages/CreateQuest';
 import ViewQuests from '@/pages/ViewQuests';
-import theme from '@/theme';
 import { CreateQuestProvider } from './state/createQuest.provider';
 
 // import { useWSContext } from './state/ws.context';
@@ -80,13 +75,11 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <WSProvider>
-        <ThemeProvider theme={theme}>
-          <CreateQuestProvider>
-            <Layout>
-              { outlet }
-            </Layout>
-          </CreateQuestProvider>
-        </ThemeProvider>
+        <CreateQuestProvider>
+          <Layout>
+            { outlet }
+          </Layout>
+        </CreateQuestProvider>
       </WSProvider>
     </AuthProvider>
   )

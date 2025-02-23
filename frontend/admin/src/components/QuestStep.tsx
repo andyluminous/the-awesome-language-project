@@ -1,10 +1,18 @@
-import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Card from '@mui/material/Card';
-import { CardContent, TextField, Typography } from '@mui/material';
 import React, { ChangeEvent, ChangeEventHandler } from 'react';
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+
 import { Quest, QuestStepItem } from '@/domain/models/quest.model';
 import { useCreateQuestContext } from '@/state/createQuest.context';
 import { QuestStepTypeEnum } from '@/domain/enums/questStepTypeEnum';
@@ -59,80 +67,67 @@ const QuestStep: React.FC<QuestStepProps> = ({ questStep }: QuestStepProps) => {
   }
 
   return (
-    <Card
-      draggable='true'
-      onDragStart={(event) => {
-        event.dataTransfer.setData('text', 'test')
-      }}
-      sx={{
-        marginBottom: '1rem',
-      }}>
-      <CardContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          marginBottom: '1rem'
-        }}>
-        <Typography
-          component='h2'
-          sx={{
-            marginBottom: '1rem'
-          }}>
-          Step id: { questStep.id }, Order: { questStep.order }
-        </Typography>
-
-        <FormControl
-          style={{
-            width: '20rem',
-            marginBottom: '1rem',
-          }}>
-          <InputLabel id='type-label'>Step type</InputLabel>
-          <Select
-            id='type'
-            name='type'
-            variant='outlined'
-            label='Step type'
-            labelId='type-label'
-            value={questStep.type}
-            onChange={onTypeChange} >
-            {
-              ['action', 'checklist'].map((country, idx) => {
-                return (<MenuItem key={idx} value={country}>{country}</MenuItem>)
-              })
-            }
-          </Select>
-        </FormControl>
-
-        <TextField
-          style={{
-            width: '20rem',
-            marginBottom: '1rem'
+    <div>
+      <div>
+        <div
+          draggable='true'
+          onDragStart={(event) => {
+            console.log('Drag start', event)
+            // event.preventDefault();
+            // event.stopPropagation();
+            const el = event.target.parentElement.cloneNode(true);
+            document.body.appendChild(el);
+            event.dataTransfer.setData('text', questStep.id.toString())
+            event.dataTransfer.setDragImage(event.target.parentElement, event.target.parentElement.clientWidth - 30, 30)
           }}
-          type='text'
-          name='name'
-          label='Name'
-          variant='outlined'
+          style={{
+            position: 'absolute',
+            cursor: 'grab',
+            right: '1rem',
+            top: '1rem',
+            height: '25px',
+            width: '25px',
+          }}>
+            <div>icon</div>
+        </div>
+        <h2>
+          Step id: { questStep.id }, Order: { questStep.order }
+        </h2>
+
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select step type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Step Type</SelectLabel>
+              {
+                ['action', 'checklist'].map((type, idx) => {
+                  return (<SelectItem key={idx} value={type}>{type}</SelectItem>)
+                })
+              }
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Input
+          type="text"
+          id="name"
+          name="name"
           value={questStep.name}
           onChange={onChange} />
 
-        <TextField
-          style={{
-            width: '20rem',
-            marginBottom: '1rem'
-          }}
+        <Input
+          type="text"
           id="notes"
           name="notes"
-          label="Notes"
-          multiline
-          rows='2'
           value={questStep.notes}
           onChange={onChange} />
 
         {questStep.type === 'action' && (<ActionQuestStep questStep={questStep} />)}
         {questStep.type === 'checklist' && (<ChecklistQuestStep questStep={questStep} />)}
-      </CardContent>
-    </ Card>
+      </div>
+    </ div>
   );
 }
 

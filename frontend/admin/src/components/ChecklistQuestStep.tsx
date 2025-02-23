@@ -1,7 +1,11 @@
+import { useCallback, useMemo } from "react";
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
 import { Quest, QuestStepItem } from "@/domain/models/quest.model";
 import { useCreateQuestContext } from "@/state/createQuest.context";
-import { Button, TextField } from "@mui/material";
-import { useCallback, useMemo } from "react";
+
 
 interface ChecklistQuestStepProps {
   questStep: QuestStepItem;
@@ -71,10 +75,10 @@ const ChecklistQuestStep: React.FC<ChecklistQuestStepProps> = ({ questStep }: Ch
                 style={{
                   marginBottom: '1rem',
                 }}>
-                <TextField
+                <Input
                   value={item}
-                  onChange={handleChecklistItemChange![idx]}
-                  ></TextField>
+                  onChange={handleChecklistItemChange![idx]} />
+                  
               </li>
             )
           }
