@@ -2,30 +2,32 @@ import { DragEvent, DragEventHandler } from "react";
 
 import { Button } from "@/components/ui/button"
 
-import QuestStep from "./QuestStep";
-import { Quest } from "@/domain/models/quest.model";
-import { useCreateQuestContext } from "@/state/createQuest.context";
+import QuestStep from "./QuestStep/QuestStep";
+import { Quest, QuestStepItem } from "@/domain/models/quest.model";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const QuestConstructor: React.FC<{}> = () => {
-  const { quest, setQuest } = useCreateQuestContext();
+  // const { quest, setQuest } = useCreateQuestContext();
   const handleAddStep = () => {
     console.log('adding step')
-    setQuest((quest: Quest) => {
-      return {
-        ...quest,
-        steps: [
-          ...quest.steps, {
-            id: quest.steps.length,
-            order: quest.steps.length,
-            type: '',
-            name: '',
-            notes: '',
-          },
-        ],
-      } as Quest;
-    });
+    // setQuest((quest: Quest) => {
+    //   return {
+    //     ...quest,
+    //     steps: [
+    //       ...quest.steps, {
+    //         id: quest.steps.length,
+    //         order: quest.steps.length,
+    //         type: '',
+    //         name: '',
+    //         notes: '',
+    //       },
+    //     ],
+    //   } as Quest;
+    // });
   }
+  const quest: Quest = useSelector((state: any) => state.createQuest)
+  const dispatch = useDispatch()
 
   // TODO: DRAG EVENT SERVICE
 
@@ -62,7 +64,7 @@ const QuestConstructor: React.FC<{}> = () => {
 
   return (
     <div>
-      {quest.steps.map((q, idx) => (
+      {quest.steps.map((q: QuestStepItem, idx: number) => (
         <div key={idx}>
           <QuestStep questStep={q} />
           <div

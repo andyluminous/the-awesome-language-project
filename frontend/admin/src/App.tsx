@@ -10,7 +10,6 @@ import { Layout } from '@/components/Layout';
 import Login from '@/pages/Login';
 import CreateQuest from '@/pages/CreateQuest';
 import ViewQuests from '@/pages/ViewQuests';
-import { CreateQuestProvider } from './state/createQuest.provider';
 
 // import { useWSContext } from './state/ws.context';
 // import { useAuthContext } from './state/auth.context';
@@ -75,11 +74,9 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <WSProvider>
-        <CreateQuestProvider>
-          <Layout>
-            { outlet }
-          </Layout>
-        </CreateQuestProvider>
+        <Layout>
+          { outlet }
+        </Layout>
       </WSProvider>
     </AuthProvider>
   )

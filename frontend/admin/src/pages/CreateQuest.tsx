@@ -13,24 +13,25 @@ import {
 } from "@/components/ui/select"
 
 
-import { useCreateQuestContext } from '@/state/createQuest.context';
 import QuestConstructor from '@/components/QuestConstructor';
+import { useDispatch, useSelector } from 'react-redux';
+import { questFieldUpdated } from '@/reducers/createQuest.reducer';
 
 
 const CreateQuest: React.FC = () => {
-  const { quest, setQuest } = useCreateQuestContext();
+  const quest = useSelector((state: any) => state.createQuest)
+  const dispatch = useDispatch()
+
   const onSubmit = (event: any) => {
     event.preventDefault();
     console.log('SUBMiTTED', event, quest);
   }
 
   const onChange = (event: any) => {
-    setQuest(quest => {
-      return {
-        ...quest,
-        [event.target.name]: event.target.value,
-      }
-    })
+    dispatch(questFieldUpdated({
+      name: event.target.name,
+      value: event.target.value,
+    }));
   }
 
   return (

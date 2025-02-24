@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 import { Quest, QuestStepItem } from "@/domain/models/quest.model";
-import { useCreateQuestContext } from "@/state/createQuest.context";
 
 
 interface ChecklistQuestStepProps {
@@ -12,45 +11,16 @@ interface ChecklistQuestStepProps {
 }
 
 const ChecklistQuestStep: React.FC<ChecklistQuestStepProps> = ({ questStep }: ChecklistQuestStepProps) => {
-  const { setQuest } = useCreateQuestContext();
+  // TODO: CHange to create quest redux store
+  // const { setQuest } = useCreateQuestContext();
 
   const addCheckListItem = useCallback(() => {
-    setQuest((quest: Quest) => {
-      return {
-        ...quest,
-        steps: quest.steps.map(step => {
-          if (step.id !== questStep.id) {
-            return step;
-          }
-          return {
-            ...step,
-            actionItems: [...step.actionItems!, ''],
-          };
-        })
-      } as Quest;
-    })
+    
   }, []);
 
   const getItemChangeHandler = useCallback<(index: number) => (event: any) => void>((index: number) => {
     return (event: any) => {
       console.log('Handling change for', index, 'with', event);
-      setQuest((quest: Quest) => {
-        return {
-          ...quest,
-          steps: quest.steps.map(step => {
-            if (step.id !== questStep.id) {
-              return step;
-            }
-            const actionItems = [...step.actionItems!];
-            actionItems[index] = event.target.value;
-
-            return {
-              ...step,
-              actionItems,
-            };
-          })
-        } as Quest;
-      });
     }
   }, []);
 
